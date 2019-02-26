@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-sm-3">
+    <div class="card">
+     <div class="title mb-20">
+        {{user.name.first}} 
+        {{user.name.last}}
+      </div>
+      <div class="text muted">
+          <label>Email:</label> {{user.email}}
+      </div>
+      <div class="text muted">
+          <label>Onboarding Status:</label> {{drivewealthUser.onboardingStatus}}
+      </div>
+      <div class="text muted">
+         <label>Deposit Status:</label> {{drivewealthUser.depositStatus}}
+      </div>
+      <div class="text muted">
+        <label>DW Account Number:</label> {{drivewealthUser.driveWealthAccountSnapshot.accountNo}}
+     </div>
+     <div class="text muted">
+       <div *ngIf="drivewealthUser.userDefinedRiskTolerances.length == 0">
+          <label>Risk Tolerance:</label> {{drivewealthUser.riskTolerance}}
+       </div>
+       <div *ngIf="drivewealthUser.userDefinedRiskTolerances.length > 0">
+          <label>User Defined Risk Tolerance:</label> {{drivewealthUser.userDefinedRiskTolerances[0]}}
+       </div>
+       
+     
+     </div>
+   
+      <checkbox [label]="'Full Rebalance'" [value]="drivewealthUser.fullRebalance"></checkbox>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+        
+            <canvas #lineChart >{{ chart }}</canvas>
+            
+    </div>
+  </div>
+  <div class="col-sm-3">
+    
+  </div>
+
+</div>

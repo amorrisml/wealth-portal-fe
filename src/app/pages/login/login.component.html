@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top"
+     style=" background-color: rgba(240, 248, 255, 0.75);
+            position:fixed;
+            top:0;
+            width:100%;
+            border-radius:0px;
+            color:white;
+            z-index:9999;
+            margin-bottom:0px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
+>
+<div>
+
+  <div style="display:inline-block; width: 35px"> 
+ <!--   <i class="fa fa-bars good-font menu-icon mr-20" id="menuToggle" (click)="toggleMenu()" ></i>-->
+  </div>
+  <img src="/assets/ML_ForDark_Monochrome_Horizontal@3x.png" style="width:100px">
+</div>
+
+
+</nav>
+
+<div class="container" style="margin-top:250px">
+    <div class="row">
+       
+      <div style="margin:auto; width: 400px">
+        <div>
+          <input-text #email [placeholder]="'Email'"></input-text>
+        </div>
+        <div class="mt-10">
+          <input-text #password [type]="'password'" [placeholder]="'Password'"></input-text>
+        </div>
+        <div class="mt-10">
+          <button (click)="login()" style="float:right" class="btn btn-primary">Login</button>
+
+        </div>
+      </div>
+
+    </div>
+</div>

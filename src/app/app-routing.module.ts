@@ -1,10 +1,33 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './pages/login/login.component';
+import { MainComponent } from './pages/main/main.component';
+import { AuthgaurdService } from './services/authgaurd.service';
+import { WealthProfileComponent } from './pages/wealth-profile/wealth-profile.component';
+import { MainHomeComponent } from './pages/main-home/main-home.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: 'login',
+    component: LoginComponent
+  },
+  { path: 'main',
+    component: MainComponent,
+    canActivate:[AuthgaurdService],
+    children: [
+      { path:'',
+        component: MainHomeComponent,
+        canActivate: [AuthgaurdService]
+      },
+      { path:'wealth-profile/:userId',
+        component: WealthProfileComponent,
+        canActivate: [AuthgaurdService]
+      }
+    ]
+  }
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false, useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
