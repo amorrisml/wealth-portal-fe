@@ -11,12 +11,10 @@ export class AuthgaurdService {
 
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-
     if (!this.userService.getUser()) {
        this.router.navigate(['/login']);
        return false;
     }
-
     return true;
   }
 }

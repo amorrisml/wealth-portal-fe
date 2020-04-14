@@ -1,0 +1,30 @@
+<div style="width:500px">
+
+  <div style="font-size: 27px; text-align: right;">
+    <span (click)="addCategory()" class="fa fa-plus-circle cursor"></span>
+  </div>
+  <div *ngFor="let r of types  let isOdd=odd; let isEven=even" class="mb-10">
+    <div>
+      <div *ngIf="!r.edit">
+        <span (click)="editCategory(r)" class="fa fa-pencil cursor"></span>
+        {{r.displayText}}
+      </div>
+      <div *ngIf="r.edit">
+        <div style="display: table; width: 100%;">
+          <div style="display: table-row;">
+            <div style="display: table-cell;">
+              <input-text [placeholder]="'Display Text'" [(ngModel)]="r.displayText"></input-text>
+              <input-text [placeholder]="'Display Image'" [(ngModel)]="r.imageUrl"></input-text>
+              <button (click)="updateCatgory(r)" class="btn btn-primary mt-20"> Update </button>
+              <button (click)="cancelUpdate(r)" class="btn btn-error mt-20">Cancel</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size: 27px; text-align: right;">
+    <span (click)="addCategory()" class="fa fa-plus-circle cursor"></span>
+  </div>
+</div>

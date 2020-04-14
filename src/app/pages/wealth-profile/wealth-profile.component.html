@@ -1,45 +1,125 @@
-<div class="row">
-  <div class="col-sm-3">
+<div class="row" *ngIf="drivewealthUser">
+  <div class="col-sm-6">
+
+
+    <!-- Start -->
+
     <div class="card">
-     <div class="title mb-20">
-        {{user.name.first}} 
-        {{user.name.last}}
-      </div>
-      <div class="text muted">
-          <label>Email:</label> {{user.email}}
-      </div>
-      <div class="text muted">
-          <label>Onboarding Status:</label> {{drivewealthUser.onboardingStatus}}
-      </div>
-      <div class="text muted">
-         <label>Deposit Status:</label> {{drivewealthUser.depositStatus}}
-      </div>
-      <div class="text muted">
-        <label>DW Account Number:</label> {{drivewealthUser.driveWealthAccountSnapshot.accountNo}}
-     </div>
-     <div class="text muted">
-       <div *ngIf="drivewealthUser.userDefinedRiskTolerances.length == 0">
-          <label>Risk Tolerance:</label> {{drivewealthUser.riskTolerance}}
-       </div>
-       <div *ngIf="drivewealthUser.userDefinedRiskTolerances.length > 0">
-          <label>User Defined Risk Tolerance:</label> {{drivewealthUser.userDefinedRiskTolerances[0]}}
-       </div>
-       
-     
-     </div>
-   
-      <checkbox [label]="'Full Rebalance'" [value]="drivewealthUser.fullRebalance"></checkbox>
+
+      <ngb-tabset>
+        <ngb-tab *ngFor="let account of drivewealthUser.accounts" title="{{account.internalType}}">
+          <ng-template ngbTabContent>
+            <account-detail [account]="account"></account-detail>
+          </ng-template>
+        </ngb-tab>
+
+      </ngb-tabset>
     </div>
+    <!-- end -->
+
+
   </div>
   <div class="col-sm-6">
     <div class="card">
-        
-            <canvas #lineChart >{{ chart }}</canvas>
-            
+
+
+      <div class="title mb-20">
+        {{user.name.first}}
+        {{user.name.last}}
+      </div>
+
+      <div style="display: table">
+        <div style="display: table-row">
+          <div style="display: table-cell" class="info-title">
+            Email:
+          </div>
+          <div style="display: table-cell" class="info-data">
+            {{user.email}}
+          </div>
+        </div>
+        <div style="display: table-row">
+          <div style="display: table-cell" class="info-title">
+            Onboarding Status:
+          </div>
+          <div style="display: table-cell" class="info-data">
+            {{drivewealthUser.onboardingStatus}}
+          </div>
+        </div>
+        <div style="display: table-row">
+          <div style="display: table-cell" class="info-title">
+            Deposit Status:
+          </div>
+          <div style="display: table-cell" class="info-data">
+            {{drivewealthUser.depositStatus}}
+          </div>
+        </div>
+
+        <div style="display: table-row">
+          <div style="display: table-cell" class="info-title">
+            Driveweatlh User ID:
+          </div>
+          <div style="display: table-cell" class="info-data">
+            {{drivewealthUser.driveWealthUserId}}
+          </div>
+        </div>
+        <div style="display: table-row">
+          <div style="display: table-cell" class="info-title">
+            Risk Tolerance:
+          </div>
+          <div style="display: table-cell" class="info-data">
+
+            <span *ngIf="drivewealthUser.riskTolerances.length > 0 ">
+              <!--<select (change)="updatePortfolio($event.target.value)"  class="selectpicker">
+                       <option *ngFor="let s of portfolios" [value]="s.id" [selected]="s.id == currentPortfolio.id" > {{s.name}} </option>
+                    </select>-->
+              {{getRiskTolerance()}}
+
+            </span>
+            <span *ngIf="drivewealthUser.riskTolerances.length == 0 ">
+              <button (click)="updatePortfolio('20')"> Migrate </button>
+              <!--  <select (change)="updatePortfolio($event.target.value)" class="selectpicker">
+                        <option value="-1"  > Select Risk Tolerance </option>
+                        <option *ngFor="let s of portfolios" [value]="s.id"  > {{s.name}} </option>
+                    </select>-->
+            </span>
+          </div>
+        </div>
+
+        <div style="display: table-row">
+          <div style="display: table-cell" class="info-title">
+            Portfolio:
+          </div>
+          <div style="display: table-cell" class="info-data">
+            <span *ngIf="drivewealthUser.riskTolerances.length > 0 && currentPortfolio != null ">
+              {{currentPortfolio.description}}
+            </span>
+          </div>
+        </div>
+        <div style="display: table-row" *ngIf="ddaBalance">
+          <div style="display: table-cell" class="info-title">
+            DDA Balance:
+          </div>
+          <div style="display: table-cell" class="info-data">
+            <span *ngIf="drivewealthUser.riskTolerances.length > 0 && currentPortfolio != null ">
+              ${{ddaBalance}}
+            </span>
+          </div>
+        </div>
+        <!--
+          <div style="display: table-row" *ngIf="drivewealthUser.userDefinedRiskTolerances.length > 0">
+              <div style="display: table-cell" class="info-title">
+                  User Defined Risk Tolerance:
+            </div>
+              <div style="display: table-cell" class="info-data">
+
+                  {{getRiskTolerance()}}
+              </div>
+          </div> -->
+      </div>
+
+      <!--<checkbox [label]="'Full Rebalance'" [value]="drivewealthUser.fullRebalance"></checkbox>-->
     </div>
   </div>
-  <div class="col-sm-3">
-    
-  </div>
+
 
 </div>

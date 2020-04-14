@@ -1,0 +1,33 @@
+<h3>Drive Wealth Event Listener</h3>
+
+<div style="column-width: 33%; border: 1px solid #575454; padding-bottom: 20px; border-radius: 10px;"
+  class="mb-40 pl-30 pt-20">
+  <!--  <div>
+    <input (change)="onSelectAll($event)" class="form-check-input" type="checkbox" value="true">
+    <label class="form-check-label">Select All</label>
+  </div>-->
+
+  <div style="width: 100%; column-count: 4; ">
+    <div class="mr-40" *ngFor="let e of selectedEvents let isOdd=odd; let isEven=even">
+      <input (change)="onChange(e, $event)" class="form-check-input" type="checkbox" [(ngModel)]="e.selected"
+        value="e.name">
+      <label class="form-check-label">{{e.name}}</label>
+    </div>
+  </div>
+</div>
+
+<div>
+  <span class="mr-40">
+    <button (click)="exportToCsv()" class="btn btn-primary"> Export</button>
+  </span>
+  <span class="pt-10">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="pause" value="pause">
+    <label class="form-check-label"> Pause</label>
+  </span>
+
+</div>
+
+
+<ag-grid-angular #infoGrid style="width: 100%; height: 800px;" class="ag-theme-balham mt-10"
+  [gridOptions]="gridOptions">
+</ag-grid-angular>

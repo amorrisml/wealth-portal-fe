@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef,EventEmitter,Output } from '@angular/core';
 
 @Component({
   selector: 'checkbox',
   template: `<label class="pure-material-checkbox">
                 <input #inputObj 
                       type="checkbox"
+                      (change)="changeValue($event)"
                       value="{{value}}"
                 >
                 <span class="{{class}}" >{{label}}</span>
@@ -19,6 +20,8 @@ export class CheckboxComponent implements OnInit {
 
   @ViewChild('inputObj') inputObj: ElementRef;
   
+  @Output()
+  chg: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor() { }
 
@@ -29,6 +32,8 @@ export class CheckboxComponent implements OnInit {
     }
   }
 
-
-
+  changeValue(event) {
+    console.log(event.target.checked);
+    this.chg.emit(event.target.checked);
+  }
 }

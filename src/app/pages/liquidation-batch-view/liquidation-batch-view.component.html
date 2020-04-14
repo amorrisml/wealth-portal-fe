@@ -1,0 +1,94 @@
+<div class="mt-20" *ngIf="liquidationBatch">
+  <div style="font-size: 17px;">{{liquidationBatch.name}}</div>
+
+  <div style="font-size: 10px;">
+    <!-- <span><a class="fa fa-plus-square cursor" data-toggle="collapse" href="#multiCollapseExample1" role="button"
+        aria-expanded="false" aria-controls="multiCollapseExample1"></a> Add UserId</span>
+    <span style="margin-left: 10px; margin-right: 10px;">|</span> -->
+    <span><a class="fa fa-upload" data-toggle="collapse" href="#multiCollapseExample2"
+        data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2"></a> Upload
+      File</span>
+  </div>
+
+
+  <div class="mt-20">
+
+    <span class="pr-20">Total Count: {{status.totalCnt}}</span>
+    <span class="pr-20">Total Checked: {{status.resolvementCheck}}</span>
+    <span class="pr-20">Total Resolved: {{status.totalValidated}}</span>
+    <span class="pr-20">Total Liquidations Created: {{status.totalProcessed}}</span>
+
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="collapse multi-collapse" id="multiCollapseExample1">
+        <div style="border: 1px solid black; border-radius: 2px; padding:5px">
+          <div class="input-group">
+            <div class="custom-file">
+              <input-text #userId [placeholder]="'Enter User Id'"></input-text>
+              <button class="btn btn-primary" style="margin-left:10px" (click)="enterUserId(userId)">Enter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapse multi-collapse" id="multiCollapseExample2">
+        <div style="border: 1px solid black; border-radius: 2px; padding:5px">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text upload" id="btnUpload">Upload</span>
+            </div>
+            <div class="custom-file">
+              <form action="/api/upload" method="post" enctype="multipart/form-data">
+                <input (change)="fileChange($event)" type="file" #csvReader class="custom-file-input"
+                  id="inputGroupFile01" accept=".csv" aria-describedby="inputGroupFileAddon01">
+              </form>
+              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+
+            </div>
+
+          </div>
+          <div *ngIf="uploadFileSelected && uploadFileSelected != null">
+            <ag-grid-angular #fileUploadGrid [frameworkComponents]="frameworkComponents"
+              style="width: 100%; height: 100px;" class="ag-theme-balham mt-10" [gridOptions]="uploadFileOptions">
+            </ag-grid-angular>
+
+            <div *ngFor="let item of columnMapping | keyvalue">
+              Key: <b>{{item.value.name}}</b> Column
+
+              <span *ngIf="item.value.col < 0" style="color:red">Missing</span>
+              <span *ngIf="item.value.col >= 0"><b>{{item.value.col + 1}}</b></span>
+            </div>
+            <div class="mt-20">
+              <button class="btn btn-primary" (click)="uploadFile()">Submit</button> <button class="btn btn-default"
+                (click)="clearFile()">Clear </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col">
+
+    </div>
+  </div>
+
+
+  <div class="mt-20">
+    <span class="mr-10">
+      <button class="btn btn-primary" (click)="batchCreateLiquidation()"> Create Liquidations</button>
+    </span>
+    <span class="mr-10">
+      <button class="btn btn-primary" (click)="exportToCsv()"> Export</button>
+    </span>
+    <span class="mr-10">
+      <button class="btn btn-primary" (click)="refresh()"> Refresh</button>
+    </span>
+  </div>
+  <ag-grid-angular #infoGrid style="width: 100%; height: 500px;" class="ag-theme-balham mt-10"
+    [gridOptions]="gridOptions">
+  </ag-grid-angular>
+</div>
+<div class="mt-40" *ngIf="!liquidationBatch">
+  One Moment ....
+</div>

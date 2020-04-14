@@ -3,7 +3,7 @@ import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import {
   Router,
   Event,
-  NavigationStart, RoutesRecognized,RouteConfigLoadStart,
+  NavigationStart, RoutesRecognized, RouteConfigLoadStart,
   RouteConfigLoadEnd, NavigationEnd, NavigationCancel, NavigationError
 } from '@angular/router'
 
@@ -25,11 +25,11 @@ import { User } from '@app/model/model';
   animations: [
     trigger('slideInOut', [
       transition(':enter', [
-        style({transform: 'translateX(-100%)'}),
-        animate('400ms ease-in', style({transform: 'translateX(0%)'}))
+        style({ transform: 'translateX(-100%)' }),
+        animate('400ms ease-in', style({ transform: 'translateX(0%)' }))
       ]),
       transition(':leave', [
-        animate('400ms ease-in', style({transform: 'translateX(-100%)'}))
+        animate('400ms ease-in', style({ transform: 'translateX(-100%)' }))
       ])
     ])
   ]
@@ -45,16 +45,16 @@ export class LeftMenuComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.userService.getUser();
-    this.router.events.subscribe((event : Event) => {
-      if(this.isOpen && (event instanceof NavigationEnd)) {
-          this.slideOut();
+    this.router.events.subscribe((event: Event) => {
+      if (this.isOpen && (event instanceof NavigationEnd)) {
+        this.slideOut();
       }
     });
   }
 
 
   toggle() {
-    if(this.isOpen) {
+    if (this.isOpen) {
       console.log("slide out");
       this.slideOut();
     } else {
@@ -63,16 +63,16 @@ export class LeftMenuComponent implements OnInit {
     }
   }
 
-  reset (){
+  reset() {
     this.slideOut();
   };
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
     if (!this.eRef.nativeElement.contains(event.target) &&
-        this.isOpen === true &&
-        event.target.id !== 'menuToggle'
-      ) {
+      this.isOpen === true &&
+      event.target.id !== 'menuToggle'
+    ) {
       this.slideOut();
     }
   }

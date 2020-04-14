@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiDomain:'http://localhost:8080',
+  apiDomain: 'http://localhost:9093',
+  webSocketDomain: 'ws://localhost:9093',
+  offline: true
 };
 
 /*

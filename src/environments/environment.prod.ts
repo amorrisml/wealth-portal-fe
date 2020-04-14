@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  apiDomain: '',
+  webSocketDomain: 'ws://cronjob.moneylion.com:9092',
+  offline: false,
 };

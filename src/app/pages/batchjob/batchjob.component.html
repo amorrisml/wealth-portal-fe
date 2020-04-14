@@ -1,0 +1,87 @@
+<div class="mainContainer">
+    <div class="content">
+        <div class="header">
+            <h1>Bulk Data File Upload</h1>
+            <h3 *ngIf="job != null">{{job.name}}</h3>
+        </div>
+        <div *ngIf="job == null" class="row margin25">
+            
+
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+                <h3>Select A Process</h3>
+                <select (change)="initJob($event.target.value)" class="form-control" >
+                    <option >Select One</option>
+                    <option [value]="index" *ngFor="let j of bulkJobs; let index = index">
+                        {{j.name}}
+    
+                    </option>
+                     
+                    
+                  </select>
+
+            </div>
+            <div class="col-md-4">
+
+            </div>
+              
+        </div>
+        <div *ngIf="job != null" class="row margin25">
+
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text upload" id="btnUpload">Upload</span>
+                    </div>
+                    <div class="custom-file">
+                        <form action="/api/upload" method="post" enctype="multipart/form-data">
+                            <input  (change)="fileChange($event)"  
+                                    type="file"  
+                                    #csvReader
+                                    class="custom-file-input" 
+                                    id="inputGroupFile01"  
+                                    accept=".csv"
+                                    aria-describedby="inputGroupFileAddon01">
+                        </form>
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+            
+            </div>
+        </div> 
+        <div *ngIf="job != null">
+                <div>
+
+                    <span class="pr-20">Total Count: {{status.totalCnt}}</span>
+                    <span class="pr-20">Total Validated: {{status.totalValidated}}</span>
+                    <span class="pr-20">Total Processed: {{status.totalProcessed}}</span>
+                    
+                </div>
+                <div>
+
+                        <button class="btn btn-primary" (click)="pushResolved()" >Push Resolved</button> &nbsp;
+                        <button class="btn btn-primary" (click)="exportToCsv()"> Export</button>
+
+                </div>
+                <ag-grid-angular
+                    #batchGrid
+                    
+                    style="width: 100%; height:900px;" 
+                    class="ag-theme-balham mt-20"
+                    [gridOptions]="gridOptions"
+                    >
+                </ag-grid-angular>
+
+
+                
+        </div>
+        
+    </div>
+</div>

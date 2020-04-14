@@ -1,5 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'ag-grid-community/dist/styles/ag-grid.css';
+@import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 
+// if you'd like to use it without importing all of bootstrap it requires
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~ngx-toastr/toastr-bs4-alert';
 
 .title {
  font-size: 20px;
@@ -9,6 +16,7 @@
   font-size: 13px;
 }
 
+
 .inputgroup {
   padding: 5px;
   border-radius: 5px;
@@ -16,69 +24,113 @@
   background-color: #ffffff;
 }
 
-.inputgroup  input[type="text"],.inputgroup input[type="password"]{
+.inputgroup  input[type="text"],.inputgroup textarea, .inputgroup input[type="password"]{
   border: none;
   border-width: 0;
   box-shadow: none;
   -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 
-.inputgroup  input[type="text"]:focus,.inputgroup input[type="password"]:focus{
+.inputgroup  input[type="text"]:focus,.inputgroup, .inputgroup textarea, input[type="password"]:focus{
   outline: none;
 }
 
+.info-title {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.info-data {
+  font-size: 13px;
+}
+
+.odd {
+  background-color: #f2f9ff;
+
+}
+.even {
+  background-color: #eceff3;
+}
+
+.pr-10 {
+  padding-right: 10px;
+}
+.pr-20 {
+  padding-right: 20px;
+}
+.pr-30 {
+  padding-right: 30px;
+}
+.pr-40 {
+  padding-right: 40px;
+}
+
+
 .pt-10 {
     padding-top: 10px;
-} 
+}
 .pt-20 {
   padding-top: 20px;
-} 
+}
 .pt-30 {
   padding-top: 30px;
-} 
+}
 .pt-40 {
   padding-top: 40px;
-} 
+}
+
+.pl-10 {
+  padding-left: 10px;
+}
+.pl-20 {
+padding-left: 20px;
+}
+.pl-30 {
+padding-left: 30px;
+}
+.pl-40 {
+padding-left: 40px;
+}
 
 .mt-10 {
   margin-top: 10px;
-} 
+}
 .mt-20 {
   margin-top: 20px;
-} 
+}
 .mt-30 {
   margin-top: 30px;
-} 
+}
 .mt-40 {
   margin-top: 40px;
-} 
+}
 
 .mb-10 {
   margin-bottom: 10px;
-} 
+}
 .mb-20 {
   margin-bottom: 20px;
-} 
+}
 .mb-30 {
   margin-bottom: 30px;
-} 
+}
 .mb-40 {
   margin-bottom: 40px;
-} 
+}
 
 
 .mr-10 {
  margin-right: 10px;
-} 
+}
 .mr-20 {
 margin-right: 20px;
-} 
+}
 .mr-30 {
 margin-right: 30px;
-} 
+}
 .mr-40 {
 margin-right: 40px;
-} 
+}
 
 .cursor {
    cursor: pointer;
@@ -94,4 +146,22 @@ margin-right: 40px;
   margin-bottom: 20px;
   padding-bottom: 20px;
   background-color: white;
+}
+
+.wp-modal{
+  margin-top: 100px;
+  margin-bottom: 1px;
+  width: 800px;
+}
+
+.cell-height {
+  height:30px;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+
 }

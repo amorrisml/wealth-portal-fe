@@ -1,0 +1,352 @@
+[
+  {
+    "name": "AutoPilot Migrations",
+    "dataHandlerType": "AUTOPILOTMIGRATION",
+    "resolverType": "INDEX",
+    "dataColumns": [
+      {
+        "columnName": "Key",
+        "columnIdx": 1,
+        "objField": "id"
+      }
+    ],
+    "resolvedDataColumns": [
+      {
+        "columnName": "UserId",
+        "el": "userId",
+        "objField": "userId"
+      },
+      {
+        "columnName": "Email",
+        "el": "email",
+        "objField": "username"
+      },
+      {
+        "columnName": "First Name",
+        "el": "firstName",
+        "objField": "firstname"
+      },
+      {
+        "columnName": "Last Name",
+        "el": "lastName",
+        "objField": "lastname"
+      }
+    ],
+    "payload": {
+      "validation": "data.resolved == true",
+      "type": "single",
+      "value": "userId"
+    }
+  },
+  {
+    "name": "Liquidation Liens",
+    "dataHandlerType": "LIQUIDATIONLIENS",
+    "resolverType": "INDEX",
+    "dataColumns": [
+      {
+        "columnName": "Key",
+        "columnIdx": 3,
+        "objField": "id"
+      },
+      {
+        "columnName": "DW Account ID",
+        "columnIdx": 3,
+        "objField": "dwAccountId"
+      },
+      {
+        "columnName": "Account Number",
+        "columnIdx": 5,
+        "objField": "accountNumber"
+      },
+      {
+        "columnName": "Routing Number",
+        "columnIdx": 6,
+        "objField": "routingNumber"
+      },
+      {
+        "columnName": "Liq. Type",
+        "columnIdx": 8,
+        "objField": "liquidationType"
+      },
+      {
+        "columnName": "Withdrawal Amt.",
+        "columnIdx": 9,
+        "objField": "withdrawalAmount"
+      }
+    ],
+    "resolvedDataColumns": [
+      {
+        "columnName": "UserId",
+        "el": "userId",
+        "objField": "userId"
+      },
+      {
+        "columnName": "Last Name",
+        "el": "lastName",
+        "objField": "lastname"
+      }
+    ],
+    "payload": {
+      "validation": "data.resolved == true",
+      "type": "obj",
+      "objFields": [
+        "dwAccountId",
+        "accountNumber",
+        "routingNumber",
+        "liquidationType",
+        "withdrawalAmount"
+      ]
+    }
+  },
+  {
+    "name": "Duplicate Withdrawal Handler",
+    "dataHandlerType": "DUPLICATEWITHDRAWALS",
+    "resolverType": "MULTIWITHDRAWAL",
+    "dataColumns": [
+      {
+        "columnName": "Key",
+        "columnIdx": 0,
+        "objField": "id"
+      }
+    ],
+    "resolvedDataColumns": [
+      {
+        "columnName": "accountBalance",
+        "el": "accountBalance",
+        "objField": "accountBalance"
+      },
+      {
+        "columnName": "ddaBalance",
+        "el": "ddaBalance",
+        "objField": "ddaBalance"
+      }
+    ],
+    "payload": {
+      "validation": "false",
+      "type": "single",
+      "value": "id"
+    }
+  },
+  {
+    "name": "Rollback Withdrawal Error",
+    "dataHandlerType": "ROLLBACKWITHDRAWALERROR",
+    "resolverType": "INDEX",
+    "dataColumns": [
+      {
+        "columnName": "Key",
+        "columnIdx": 0,
+        "objField": "id"
+      },
+      {
+        "columnName": "accountId",
+        "columnIdx": 1,
+        "objField": "accountId"
+      },
+      {
+        "columnName": "withdrawalId",
+        "columnIdx": 2,
+        "objField": "withdrawalId"
+      },
+      {
+        "columnName": "amount",
+        "columnIdx": 3,
+        "objField": "amount"
+      },
+      {
+        "columnName": "last status",
+        "columnIdx": 5,
+        "objField": "lastStatus"
+      },
+      {
+        "columnName": "date created",
+        "columnIdx": 4,
+        "objField": "dateCreated"
+      }
+    ],
+    "resolvedDataColumns": [
+      {
+        "columnName": "UserId",
+        "el": "userId",
+        "objField": "userId"
+      }
+    ],
+    "payload": {
+      "validation": "data.accountId != '' && data.withdrawalId != '' ",
+      "type": "obj",
+      "objFields": [
+        "accountId",
+        "withdrawalId"
+      ]
+    }
+  },
+  {
+    "name": "Index Users",
+    "dataHandlerType": "INDEXERHANDLER",
+    "resolverType": "INDEX",
+    "dataColumns": [
+      {
+        "columnName": "UserId",
+        "columnIdx": 0,
+        "objField": "id"
+      }
+    ],
+    "resolvedDataColumns": [
+      {
+        "columnName": "User Found",
+        "el": "userId",
+        "objField": "userId"
+      }
+    ],
+    "payload": {
+      "validation": "data.id != '' ",
+      "type": "single",
+      "value": "id"
+    }
+  },
+  {
+    "name": "Withdrawal Update ",
+    "dataHandlerType": "WITHDRAWALUPDATEHANDLER",
+    "resolverType": "INDEX",
+    "dataColumns": [
+      {
+        "columnName": "Key",
+        "columnIdx": 0,
+        "objField": "id"
+      },
+      {
+        "columnName": "DW Account Num",
+        "columnIdx": 0,
+        "objField": "dwAccountNo"
+      },
+      {
+        "columnName": "withdrawalId",
+        "columnIdx": 1,
+        "objField": "withdrawalId"
+      },
+      {
+        "columnName": "status",
+        "columnIdx": 6,
+        "objField": "status"
+      }
+    ],
+    "resolvedDataColumns": [
+      {
+        "columnName": "UserId",
+        "el": "userId",
+        "objField": "userId"
+      }
+    ],
+    "payload": {
+      "validation": "data.resolved == true && data.dwAccountNo != '' && data.withdrawalId != '' && data.status != '' ",
+      "type": "obj",
+      "objFields": [
+        "dwAccountNo",
+        "withdrawalId",
+        "status"
+      ]
+    }
+  },
+  {
+    "name": "Withdrawal ReInitialize ",
+    "dataHandlerType": "WITHDRAWALREINITHANDLER",
+    "dataColumns": [
+      {
+        "columnName": "Key",
+        "columnIdx": 1,
+        "objField": "dwAccountNo"
+      },
+      {
+        "columnName": "User Id",
+        "columnIdx": 0,
+        "objField": "userId"
+      },
+      {
+        "columnName": "withdrawalId",
+        "columnIdx": 2,
+        "objField": "withdrawalId"
+      }
+    ],
+    "resolvedDataColumns": [
+      {
+        "columnName": "UserId",
+        "el": "userId",
+        "objField": "users"
+      }
+    ],
+    "payload": {
+      "validation": "data.dwAccountNo != '' && data.withdrawalId != '' ",
+      "type": "obj",
+      "objFields": [
+        "dwAccountNo",
+        "withdrawalId"
+      ]
+    }
+  },
+  {
+    "name": "Drivewealth Rebalance",
+    "dataHandlerType": "DRIVEWEALTHREBALANCEHANDLER",
+    "dataColumns": [
+      {
+        "columnName": "Key",
+        "columnIdx": 0,
+        "objField": "id"
+      }
+    ],
+    "resolvedDataColumns": [
+      {
+        "columnName": "dwAccountId",
+        "el": "dwAccountId",
+        "objField": "dwAccountId"
+      },
+      {
+        "columnName": "UserId",
+        "el": "userId",
+        "objField": "userId"
+      }
+    ],
+    "payload": {
+      "validation": "data.resolved === true && data.id == data.dwAccountId",
+      "type": "obj",
+      "objFields": [
+        "dwAccountId",
+        "userId"
+      ]
+    }
+  },
+  {
+    "name": "Cash Transfer Push",
+    "dataHandlerType": "CASHTRANSFERRESET",
+    "dataColumns": [
+      {
+        "columnName": "Key",
+        "columnIdx": 1,
+        "objField": "id"
+      },
+      {
+        "columnName": "CashTransferId",
+        "columnIdx": 0,
+        "objField": "cashTransferId"
+      },
+      {
+        "columnName": "UserId",
+        "columnIdx": 1,
+        "objField": "userId"
+      }
+    ],
+    "resolvedDataColumns": [
+      {
+        "columnName": "Email",
+        "el": "email",
+        "objField": "email"
+      }
+    ],
+    "payload": {
+      "validation": "true == true",
+      "type": "obj",
+      "objFields": [
+        "cashTransferId",
+        "userId"
+      ]
+    }
+  }
+]

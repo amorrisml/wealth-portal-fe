@@ -1,14 +1,14 @@
-import { Component, ElementRef, Input, Output, OnInit, EventEmitter, ViewChild} from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, ElementRef, Input, Output, OnInit, EventEmitter, ViewChild, forwardRef } from '@angular/core';
+import { FormGroup, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
-import {InputBase} from '../input-base';
+import { InputBase } from '../input-base';
 import { Validation } from '@app/model/model';
 import { ValidationService } from '@app/services/validation.service';
 
 @Component({
   selector: 'input-text',
-  template:`<div *ngIf="label"><label>{{label}}</label></div>
+  template: `<div *ngIf="label"><label>{{label}}</label></div>
             <div class="inputgroup" #inputwrapper style="display:table; border:1px solid grey; width:100%" >
                 <div style="display:table-cell; width:20px; padding-left:5px; padding-right:10px; text-align:left">
                     <i class="fa {{leftIcon}}"></i>
@@ -31,9 +31,17 @@ import { ValidationService } from '@app/services/validation.service';
                   </span>
                 </div>
             </div>
-            `
+            `,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TextComponent),
+      multi: true
+    }
+  ]
 })
-export class TextComponent implements OnInit {
+export class TextComponent implements OnInit, ControlValueAccessor {
+
   private valid: boolean;
 
   @Input() label: string;
@@ -62,9 +70,8 @@ export class TextComponent implements OnInit {
   @ViewChild('confirmMessage') confirmWrap: ElementRef;
 
   constructor(private validationService: ValidationService) {
-    if( !this.width) {
-       this.width = '100%';
-       
+    if (!this.width) {
+      this.width = '100%';
     }
   }
 
@@ -83,11 +90,12 @@ export class TextComponent implements OnInit {
   }
 
   isValid() {
-      return this.isValid;
+    return this.isValid;
   }
 
-  onKeyUp( $event) {
+  onKeyUp($event) {
     this.keyUp.emit($event);
+    this.propagateChange(this.inputObj.nativeElement.value);
   }
 
   validate(): boolean {
@@ -113,15 +121,19 @@ export class TextComponent implements OnInit {
     }
   }
 
-  setVerified (message: string) {
+  setVerified(message: string) {
     this.valid = true;
-    
-   /* $(this.confirmWrap.nativeElement).text(message)
-    $(this.inputwrapper.nativeElement).css("border-color","green")*/
+
+    /* $(this.confirmWrap.nativeElement).text(message)
+     $(this.inputwrapper.nativeElement).css("border-color","green")*/
   }
 
   getValue() {
     return this.inputObj.nativeElement.value
+  }
+
+  clear() {
+    this.inputObj.nativeElement.value = "";
   }
 
   clearError() {
@@ -135,5 +147,23 @@ export class TextComponent implements OnInit {
     $(this.errorWrap.nativeElement).text(message)
     $(this.inputwrapper.nativeElement).css("border-color","red")*/
   }
+  propagateChange = (_: any) => { };
 
+  writeValue(value: any): void {
+    if (value !== undefined) {
+      this.inputObj.nativeElement.value = value;
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.propagateChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+
+  }
 }

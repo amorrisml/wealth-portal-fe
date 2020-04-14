@@ -17,9 +17,16 @@ export class MainHomeComponent implements OnInit {
   }
   search($event: KeyboardEvent) {
     if($event.code === 'Enter'){
-      this.userService.getUserIdViaAccountNumber(this.searchTxt.getValue())
-        .subscribe(userId => {
-          window.location.href = `#/main/wealth-profile/${userId}`;
+      this.userService.findUserId(this.searchTxt.getValue())
+        .subscribe(result => {
+
+          if(result.length > 0) {
+            window.location.href = `#/main/${result[0].userId}`;
+            window.location.reload();
+          } else {
+           // window.location.href = `#/main/${result.userId}`;
+          }
+          
         })
 
     }

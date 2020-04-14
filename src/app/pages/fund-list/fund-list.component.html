@@ -1,0 +1,6 @@
+<div *ngFor="let f of funds  let isOdd=odd; let isEven=even" class="mb-10">
+  <div>
+    <a href="/#/main/fundhome/{{f.id}}"> <span class="fa fa-pencil cursor" style="margin-right: 10px;"></span>{{f.name}}
+      : {{f.type}}</a>
+  </div>
+</div>

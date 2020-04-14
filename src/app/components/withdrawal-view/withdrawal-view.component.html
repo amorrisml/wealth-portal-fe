@@ -1,0 +1,88 @@
+<modal-content class="mt-40">
+  <div modal-header>
+    Withdrawal Created {{withdrawal.createdOn |  date:'M/d/yy'}}
+
+  </div>
+  <div modal-body>
+
+    <div style="display:table; width:100%; margin-top:20px">
+      <div style="display:table-row">
+        <div style="display:table-cell;" class="info-title pr-40 pb-10 cell-height">Type: </div>
+        <div style="display:table-cell;" class="info-data pr-40 pb-10 cell-height">{{withdrawal.type}}</div>
+        <div style="display:table-cell;" class="info-title pr-40 pb-10 cell-height">Event Type: </div>
+        <div style="display:table-cell;" class="info-data pr-40 pb-10 cell-height">{{withdrawal.eventType}}</div>
+      </div>
+      <div style="display:table-row">
+        <div style="display:table-cell;" class="info-title pr-40 pb-10 cell-height">Transaction Status: </div>
+        <div style="display:table-cell;" class="info-data pr-40 pb-10 cell-height">{{withdrawal.transactionIdStatus}}
+        </div>
+        <div style="display:table-cell;" class="info-title pr-40 pb-10 cell-height">Divest Request Id: </div>
+        <div style="display:table-cell;" class="info-data pr-40 pb-10 cell-height">{{withdrawal.divestRequestId}}</div>
+      </div>
+      <div style="display:table-row">
+        <div style="display:table-cell;" class="info-title pr-40 pb-10 cell-height">Transaction Id: </div>
+        <div style="display:table-cell;" class="info-data pr-40 pb-10 cell-height">{{withdrawal.transactionId}}</div>
+        <div style="display:table-cell;" class="info-title pr-40 pb-10 cell-height">Withdrawal Request Id: </div>
+        <div style="display:table-cell;" class="info-data pr-40 pb-10 cell-height">{{withdrawal.withdrawalRequestId}}
+        </div>
+      </div>
+      <div style="display:table-row">
+        <div style="display:table-cell;" class="info-title pr-40 pb-10 cell-height">Status: </div>
+        <div style="display:table-cell;" class="info-data pr-40 pb-10 cell-height">
+          <!-- *ngIf="withdrawal.status == 'ERROR'|| withdrawal.status == 'INITIALIZED' || withdrawal.status ==  'RIA_PENDING'  " -->
+          <span>
+            <select (change)="setWithdrawalStatus($event.target.value)" class="selectpicker">
+              <option *ngFor="let s of getStatuses(withdrawal) " [value]="s" [selected]="s == withdrawal.status"> {{s}}
+              </option>
+            </select>
+          </span>
+          <!-- <span *ngIf="withdrawal.status != 'ERROR'|| withdrawal.status != 'INITIALIZED' ">
+                     {{withdrawal.status}}
+                  </span>-->
+        </div>
+        <div style="display:table-cell;" class="info-title pr-40 pb-10">Amount: </div>
+        <div style="display:table-cell;" class="info-data pr-40 pb-10">${{withdrawal.amount}}</div>
+      </div>
+      <div style="display: table-row;" *ngIf="dwInfo">
+        <div style="display:table-cell;" class="info-title pr-40 pb-10 cell-height">DW. Status: </div>
+        <div style="display:table-cell;" class="info-data pr-40 pb-10 cell-height">{{dwInfo.status.message}}</div>
+        <div style="display:table-cell;" class="info-title pr-40 pb-10 cell-height"></div>
+        <div style="display:table-cell;" class="info-data pr-40 pb-10 cell-height"></div>
+      </div>
+    </div>
+    <div class="pt-20" style="overflow-y: scroll; max-height: 300px">
+
+
+      <div style="display:table; width:100%; margin-top:20px">
+        <div style="display:table-row">
+          <div style="display:table-cell;" class="info-title pr-40 pb-10">Created</div>
+          <div style="display:table-cell;" class="info-title pr-40 pb-10">Status</div>
+        </div>
+        <div *ngFor="let s of withdrawal.statuses; let index=index;  let isOdd=odd; let isEven=even" [class.odd]="isOdd"
+          [class.even]="isEven" style="display:table-row" style="display:table-row">
+
+          <div style="display:table-cell;  padding:5px; width: 100px" class="info-data pr-40 pb-10">
+            {{s.createdOn |  date:'M/d/yy'}}</div>
+          <div style="display:table-cell;  padding:5px" class="info-data pr-40 pb-10">
+
+            <span *ngIf="s.messages">
+              <a data-toggle="collapse" [attr.href]="'#collapseExample_'+index"
+                [attr.aria-controls]="'#collapseExample_'+index" role="button"
+                [attr.aria-expanded]="false">{{s.status}}</a>
+
+              <div class="collapse" [attr.id]="'collapseExample_'+index">
+                <span *ngIf="s.messages">{{s.messages[0].message}}</span>
+              </div>
+            </span>
+
+            <span *ngIf="!s.messages">
+              {{s.status}}
+            </span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</modal-content>

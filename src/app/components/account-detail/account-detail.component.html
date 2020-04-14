@@ -1,0 +1,291 @@
+
+<div style="min-height:300px;" >
+  <canvas #lineChart >{{ chart }}</canvas>
+</div>
+<div >
+
+    <div style="display: table">
+        <div style="display: table-row">
+          <div style="display: table-cell" class="info-title">
+              Account ID:
+          </div>
+          <div style="display: table-cell" class="info-data">
+              {{account.accountID}}
+          </div>
+        </div>
+        <div style="display: table-row">
+          <div style="display: table-cell" class="info-title">
+              Account Num:
+          </div>
+          <div style="display: table-cell" class="info-data">
+              {{account.accountNo}}
+          </div>
+        </div>
+
+        <div style="display: table-row">
+            <div style="display: table-cell" class="info-title">
+                Account Status:
+            </div>
+            <div style="display: table-cell" class="info-data">
+                {{account.accountStatus}}
+            </div>
+          </div>
+        <div style="display: table-row">
+            <div style="display: table-cell" class="info-title">
+                Cash Available For Trade:
+            </div>
+            <div style="display: table-cell" class="info-data">
+                ${{account.cash.cashAvailableForTrade}}
+            </div>
+        </div>
+       
+        <div style="display: table-row">
+            <div style="display: table-cell" class="info-title">
+                Cash Available For Withdrawal:
+            </div>
+            <div style="display: table-cell" class="info-data">
+                ${{account.cash.cashAvailableForWithdrawal}}
+            </div>
+        </div>
+        <div style="display: table-row">
+            <div style="display: table-cell" class="info-title">
+                Cash Balance:
+            </div>
+            <div style="display: table-cell" class="info-data">
+                ${{account.cash.cashBalance}}
+            </div>
+        </div>
+        <div style="display: table-row">
+            <div style="display: table-cell" class="info-title">
+                Equity Value:
+            </div>
+            <div style="display: table-cell" class="info-data">
+                ${{account.equity.equityValue}}
+            </div>
+        </div>   
+        <div style="display: table-row">
+            <div style="display: table-cell" class="info-title">
+                Account Status:
+            </div>
+            <div style="display: table-cell" class="info-data">
+                ${{account.accountStatus}}
+            </div>
+        </div>
+        <div style="display: table-row">
+            <div style="display: table-cell" class="info-title">
+                Equity Return:
+            </div>
+            <div style="display: table-cell" class="info-data">
+                ${{account.equity.equityReturn}}
+            </div>
+        </div>                         
+        <div style="display: table-row">
+            <div style="display: table-cell" class="info-title">
+                Equity Return Percentage:
+            </div>
+            <div style="display: table-cell" class="info-data">
+                ${{account.equity.equityReturnPercentage}}
+            </div>
+        </div>   
+        <div style="display: table-row" *ngIf="showHasPendingWithdrawal(account)">
+          <div style="display: table-cell" class="info-title">
+            Has Pending Withdrawal Flag:
+          </div>
+          <div style="display: table-cell" class="info-data">
+              <checkbox [label]="''" (chg)="setHasPendingWithdrawalFlag($event)" [value]="account.hasPendingWithdrawal"></checkbox>
+          </div>
+      </div>
+       <div style="display: table-row" *ngIf="this.account.riskTolerances != null && this.account.riskTolerances.length > 0" >
+          <div style="display: table-cell" class="info-title">
+            User Defined Risk Tolerance:
+          </div>
+          <div style="display: table-cell" class="info-data">
+            {{getRiskTolerance()}}
+          </div>
+       </div>
+       <div style="display: table-row" *ngIf="this.account.riskTolerances != null && this.account.riskTolerances.length > 0" >
+        <div style="display: table-cell" class="info-title">
+          User Defined Portfolio:
+        </div>
+        <div style="display: table-cell" class="info-data">
+          {{getUserDefinedPortfolio()}}
+        </div>
+       </div>                             
+      </div>
+
+      <div class="accordion mt-20" id="accordionExample">
+          <div >
+            <div *ngIf="account.equity.equityPositions.length > 0"  class="card-header" id="headingOne">
+              <h2 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                   Equity Positions
+                </button>
+              </h2>
+            </div>
+        
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div class="card-body">
+                
+                <ag-grid-angular 
+                    *ngIf="account.equity.equityPositions.length > 0"   
+                    style="width: 100%; height: 200px;" 
+                    class="ag-theme-balham mt-20"
+                    [rowData]="account.equity.equityPositions" 
+                    [columnDefs]="equityPositionColumnDefs">
+                </ag-grid-angular>
+              </div>
+            </div>
+          </div>
+          <div >
+            <div class="card-header" id="headingTwo">
+              <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Withdrawals
+                </button>
+              </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <div class="card-body" style="display: table; width: 100%">
+                
+                  <div style="display:table-row">
+                      <div style="display:table-cell;" class="info-title pr-40 pb-10">Created On </div>
+                      <div style="display:table-cell;" class="info-title pr-40 pb-10">Type</div>
+                      <div style="display:table-cell;" class="info-title pr-40 pb-10">Event Type</div>
+                      <div style="display:table-cell;" class="info-title pr-40 pb-10">Status</div>
+                      <div style="display:table-cell;" class="info-title pr-40 pb-10">Amount</div>
+                      <div style="display:table-cell;" class="info-title pr-40 pb-10"></div>
+
+                  </div>
+                  <div *ngFor="let w of account.withdrawals  let isOdd=odd; let isEven=even"  
+                       [class.odd]="isOdd" 
+                       [class.even]="isEven" style="display:table-row" >
+                      <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{w.createdOn |  date:'M/d/yy'}}</div>
+                      <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{w.type}}</div>
+                      <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{w.eventType}}</div>
+                      <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{w.status}}</div>
+                      <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">${{w.amount}}</div>
+                      <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10"><i (click)="openWitdrawalModal(account, w)" style="cursor: pointer" class="fa fa-info-circle"></i></div>
+                   </div>
+
+              </div>
+
+            </div>
+          </div>
+          <div >
+            <div class="card-header" id="headingThree">
+              <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Deposits
+                </button>
+              </h2>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body" style="display: table; width: 100%">
+                
+
+                  <div style="display:table-row">
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10">Created On </div>
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10">Origin</div>
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10">Status</div>
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10">Deposit ID</div>
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10">Amount</div>
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10"></div>
+
+                </div>
+                <div *ngFor="let d of deposits let isOdd=odd; let isEven=even"
+                     [class.odd]="isOdd" 
+                     [class.even]="isEven" style="display:table-row" >
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{d.createdOn |  date:'M/d/yy'}}</div>
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{d.origin}}</div>
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{d.status}}</div>
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{d.depositId}}</div>
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">${{d.amount}}</div>
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10"> </div>
+                 </div>
+
+                   <!---- <div *ngFor="let d of deposits let isOdd=odd; let isEven=even"  
+                        [class.odd]="isOdd" 
+                        [class.even]="isEven" style="display:table-row" >
+
+                        <div style="display:table-cell;" class="info-data pr-40 pb-10">{{d.createdOn |  date:'M/d/yy'}}</div>
+                        <div style="display:table-cell;" class="info-data pr-40 pb-10">{{d.status}}</div>
+                        <div style="display:table-cell;" class="info-data pr-40 pb-10">${{d.amount}}</div>
+                     </div>-->
+
+                </div>
+
+            </div>
+          </div>
+          <div >
+            <div class="card-header" id="headingThree">
+              <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                  Cash Transfers
+                </button>
+              </h2>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body" style="display: table; width: 100%">
+                
+                  <ag-grid-angular 
+                  *ngIf="account.equity.equityPositions.length > 0"   
+                  style="width: 100%; height: 200px;" 
+                  class="ag-theme-balham mt-20"
+                  [rowData]="cashTransfers" 
+                  [columnDefs]="cashTransfersColumnDefs">
+              </ag-grid-angular>
+                  <!--
+
+                  <div style="display:table-row">
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10">Created On </div>
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10">Origin</div>
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10">Status</div>
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10">Deposit ID</div>
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10">Amount</div>
+                    <div style="display:table-cell;" class="info-title pr-40 pb-10"></div>
+
+                </div>
+                <div *ngFor="let d of cashTransfers let isOdd=odd; let isEven=even"
+                     [class.odd]="isOdd" 
+                     [class.even]="isEven" style="display:table-row" >
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{d.createdOn |  date:'M/d/yy'}}</div>
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{d.origin}}</div>
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{d.status}}</div>
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">{{d.depositId}}</div>
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10">${{d.amount}}</div>
+                    <div style="display:table-cell; padding:5px" class="info-data pr-40 pb-10"> </div>
+                 </div>
+                -->
+
+                </div>
+
+            </div>
+          </div>
+          <div >
+            <div class="card-header" id="headingThree">
+              <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                  Transactions
+                </button>
+              </h2>
+            </div>
+            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+                <div class="card-body" style="display: table; width: 100%">
+                
+                  <ag-grid-angular 
+                  
+                    style="width: 100%; height: 500px;" 
+                    class="ag-theme-balham mt-20"
+                    [rowData]="transactions" 
+                    [columnDefs]="transactionsColumnDefs">
+                  </ag-grid-angular>
+                 
+
+                </div>
+
+            </div>
+          </div>
+        </div>
+
+    
+</div>

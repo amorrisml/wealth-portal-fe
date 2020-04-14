@@ -1,0 +1,51 @@
+<div class="mt-40">
+  <h4>{{fund.name}}</h4>
+  <div style="display:table; width: 600px;" class="mt-20">
+    <div style="display:table-row">
+      <div style="display: table-cell;">
+        <div><label style="font-weight: bolder;">Fund Id:</label> {{fund.fundId}}</div>
+        <div><label style="font-weight: bolder;">Client Fund Id:</label> {{fund.clientFundId}}</div>
+        <div *ngIf="fund.type != '' && fund.type != null"><label style="font-weight: bolder;">Type:</label>
+          {{fund.type}}</div>
+        <div *ngIf="fund.type === '' || fund.type == null">
+          <label style="font-weight: bolder;">Type:</label>
+          <select class="form-control" [(ngModel)]="fund.type">
+            <option value="">Select One</option>
+            <option value="CORE">CORE</option>
+            <option value="THEMATIC">THEMATIC</option>
+          </select>
+        </div>
+        <input-text [placeholder]="'Display Title'" [(ngModel)]="fund.displayTitle"></input-text>
+        <input-text [placeholder]="'Display Subtitle'" [(ngModel)]="fund.displaySubtitle"></input-text>
+        <input-text [placeholder]="'Display Image'" [(ngModel)]="fund.imageUrl"></input-text>
+        <input-textarea [(ngModel)]="fund.displayDescription" [placeholder]="'Display Description'"></input-textarea>
+        <input-textarea [(ngModel)]="fund.displaySummary" [placeholder]="'Display Summary'"></input-textarea>
+        <div class="border mt-40" style="padding: 10px;">
+          <div class="mb-20" *ngFor="let c of fund.displayCharacteristics let isOdd=odd; let isEven=even">
+            <div *ngIf="c.new">
+              <select class="form-control" [(ngModel)]="c.driveWealthFundDisplayCategoryTypeId">
+                <option value="-1">Select One</option>
+                <option *ngFor="let ct of detailCharacteristicTypes" [value]="ct.id">{{ct.displayText}}</option>
+              </select>
+            </div>
+            <div *ngIf="!c.new" class="mb-10">
+              {{findDisplayCharacteristicTypee(c.driveWealthFundDisplayCategoryTypeId)}}
+            </div>
+            <div>
+              <input-textarea [(ngModel)]="c.content" [placeholder]="'Content'"></input-textarea>
+            </div>
+            <div style="font-size: 27px;">
+              <i class="fa fa-plus-circle"></i>
+            </div>
+          </div>
+          <button class="btn btn-primary" (click)="addDisplayCharacteristic()"> Add New Characteristic Blurb </button>
+        </div>
+      </div>
+    </div>
+    <div style="display:table-row">
+      <div style="display: table-cell; text-align: right;" class="pt-20">
+        <button class="btn btn-primary" style="text-align: right;" (click)="updateFund()">Update Fund</button>
+      </div>
+    </div>
+  </div>
+</div>

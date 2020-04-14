@@ -1,0 +1,12 @@
+<div>
+
+  <div *ngFor="let l of liquidationBatchJobs">
+   <div style="font-size: 20px; margin-top: 5px;">
+    <a href='#/main/liquidationwatcher/{{l.id}}'> {{l.name}}</a>
+   </div>
+   <div style="font-size: 11px; margin-top: 1px;">
+    {{l.createdOn | date}}
+   </div>
+  </div>
+
+</div>
